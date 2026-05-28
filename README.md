@@ -54,7 +54,7 @@ Sigue estos pasos para correr el entorno de desarrollo localmente
     git clone https://github.com/abrilgavilan11/MINECRAFT-NOCODE_EDITION.git
    ```
 
-2.Instalar las dependencias:  
+2. Instalar las dependencias:  
     ```bash
         npm install
     ```
@@ -64,7 +64,7 @@ Sigue estos pasos para correr el entorno de desarrollo localmente
         npm run dev
     ```
 
-4.Levantar el servidor en modo producción:  
+4. Levantar el servidor en modo producción:  
     ```bash
         npm start
     ```
@@ -74,7 +74,7 @@ El proyecto requiere variables de entorno para funcionar y conectarse a la base 
 
 1. Crea un archivo .env en la raíz del proyecto.
 2. Copia la estructura del archivo .env.example proporcionado en este repositorio.
-3.Solicita las credenciales reales (DATABASE_URL) por mensajería privada al equipo. No subas tus credenciales al repositorio.
+3. Solicita las credenciales reales (DATABASE_URL) por mensajería privada al equipo. No subas tus credenciales al repositorio.
 
 ## 🗄️ Base de Datos (Supabase): Migraciones y Seed
 Este proyecto utiliza Prisma ORM para el modelado y la conexión con la base de datos alojada en Supabase. Para inicializar la base de datos remota con la estructura y los datos, ejecuta los siguientes comandos:
