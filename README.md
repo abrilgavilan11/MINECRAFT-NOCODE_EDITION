@@ -25,8 +25,8 @@ Esta es la API REST desarrollada con Node.js, Express, Prisma ORM y PostgreSQL (
 ## 🎮 Descripción de la Aplicación
 Minecraft NoCode Edition es una plataforma orientada a la comunidad técnica y creativa de Minecraft. Cuenta con herramientas como un creador de skins 2D y un directorio de ítems del juego, facilitando la gestión de recursos sin necesidad de programar.
 
-### 📦 Entidades Elegidas
-Las entidades principales modeladas para este CRUD son Skins e Items. Estas entidades contienen toda la información necesaria para gestionar el recurso y conectarlo con nuestra base de datos PostgreSQL, e incluye campos obligatorios como `id`, `createdAt` y `updatedAt`.
+## 📦 Entidades Elegidas
+Las entidades principales modeladas para este CRUD son Mobs e Items. Estas entidades contienen toda la información necesaria para gestionar el recurso y conectarlo con nuestra base de datos PostgreSQL, e incluye campos obligatorios como `id`, `createdAt` y `updatedAt`.
 
 ## ✨ Características Principales
 
