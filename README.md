@@ -1,4 +1,4 @@
-<h1 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h1>
+<h2 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h2>
 <div align="center">
   <img src="./public/img/hero-minecraft.png" alt="Minecraft NoCode Edition Banner" width="600">
 </div>
