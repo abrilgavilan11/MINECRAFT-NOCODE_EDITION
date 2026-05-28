@@ -1,7 +1,7 @@
+<h1 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h1>
 <div align="center">
   <img src="./public/img/hero-minecraft.png" alt="Minecraft NoCode Edition Banner" width="600">
 </div>
-<h3 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h3>
 
 # 🧱 Minecraft NoCode Edition - Backend API
 
@@ -10,9 +10,9 @@ Esta es la API REST desarrollada con Node.js, Express, Prisma ORM y PostgreSQL (
 ## 👥 Integrantes del Grupo
 | Rol | Nombre | GitHub |
 | :--- | :--- | :--- |
-| PM / Scrum Master | Abril Gavilan | [@abrilgavilan11] |
-| Backend Developer | Daniela Oñatibia | [@DanielaOnatibia] |
-| Backend Developer | Erick Gonzalez | [@DevEriik] |
+| PM / Scrum Master | Abril Gavilan | @abrilgavilan11 |
+| Backend Developer | Daniela Oñatibia | @DanielaOnatibia |
+| Backend Developer | Erick Gonzalez | @DevEriik |
 
 
 ## 🔗 Enlaces del Proyecto
