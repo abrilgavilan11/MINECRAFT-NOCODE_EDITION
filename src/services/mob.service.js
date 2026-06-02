@@ -24,7 +24,6 @@ const createMob = async (data) => {
 };
 
 const updateMob = async (id, data) => {
-    // Verica si existe
     const existingMob = await prisma.mob.findUnique({
         where: { id: id },
     });
@@ -48,7 +47,6 @@ const updateMob = async (id, data) => {
 };
 
 const deleteMob = async (id) => {
-    // Verificamos si existe primero
     const existingMob = await prisma.mob.findUnique({
         where: { id: id },
     });

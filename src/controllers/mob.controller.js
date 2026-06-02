@@ -27,14 +27,11 @@ const getMobById = async (req, res) => {
 
 const createMob = async (req, res) => {
     try {
-        // Acá el controlador toma los datos que mandó el usuario (req.body)
-        // y se los pasa al servicio para que haga la validación y lo guarde
         const newMob = await mobService.createMob(req.body);
         res.status(201).json(newMob);
     } 
     catch (error) {
         console.error(error);
-        // Si el servicio tira un error de validación (400), lo atajamos acá
         if (error.status === 400) {
         return res
             .status(400)
