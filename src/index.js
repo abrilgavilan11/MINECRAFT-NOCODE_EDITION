@@ -1,5 +1,7 @@
-require('dotenv/config');
+require('dotenv').config();
+
 console.log(" FRONTEND_URL en memoria del servidor:", process.env.FRONTEND_URL);
+
 const express = require('express');
 const cors = require('cors');
 
