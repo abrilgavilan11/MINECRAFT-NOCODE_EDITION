@@ -1,10 +1,6 @@
-/**
- * TODO: Con esto validamos el cuerpo de un ITEM de Minecraft
- */
 const validateItem = (body) => {
     const errors = [];
 
-    //? Evito objetos vacios. 
     if (!body || Object.keys(body).length === 0) {
         errors.push({
             field: "body", 
@@ -13,7 +9,6 @@ const validateItem = (body) => {
         return errors;
     }
 
-    //? Valido el campo 'name' (obligatorio, string, no vacio)
     if (!body.name || typeof body.name !== "string" || body.name.trim() === "") {
         errors.push({
             field: "name", 
@@ -21,7 +16,6 @@ const validateItem = (body) => {
         })
     }
 
-    //? Valido campo 'description' (obligatorio, string, no vacio)
     if (!body.description || typeof body.description !== "string" || body.description.trim() === "") {
         errors.push({
             field: "description", 
@@ -29,7 +23,6 @@ const validateItem = (body) => {
         })
     }
 
-    //? Valido campo 'rarity' (obligatorio, string, no vacio)
     if (!body.rarity || typeof body.rarity !== "string" || body.rarity.trim() === "") {
         errors.push({
             field: "rarity", 
@@ -37,7 +30,6 @@ const validateItem = (body) => {
         })
     }
 
-    //? Valido campo 'imageUrl' (obligatorio, string, no vacio)
     if (!body.imageUrl || typeof body.imageUrl !== "string" || body.imageUrl.trim() === "") {
         errors.push({
             field: "imageUrl", 
@@ -48,13 +40,9 @@ const validateItem = (body) => {
     return errors;
 }
 
-/**
- * TODO: Con esto validamos el cuerpo de un MOB de Minecraft
- */
 const validateMob = (body) => {
     const errors = []
 
-    //? Evito objetos vacios. 
     if (!body || Object.keys(body).length === 0) {
         errors.push({
             field: "body",
@@ -63,7 +51,6 @@ const validateMob = (body) => {
         return errors;
     }
 
-    //? Valido campo name
     if (!body.name || typeof body.name !== "string" || body.name.trim() === "") {
         errors.push({
             field: "name",
@@ -71,7 +58,6 @@ const validateMob = (body) => {
         });
     }
 
-    //? Valido campo 'description'
     if (!body.description || typeof body.description !== "string" || body.description.trim() === "") {
         errors.push({
             field: "description",
@@ -79,7 +65,6 @@ const validateMob = (body) => {
         });
     }
 
-    //? Valido campo 'type' (el comportamiento/tipo del mob)
     if (!body.type || typeof body.type !== "string" || body.type.trim() === "") {
         errors.push({
             field: "type",
@@ -87,7 +72,6 @@ const validateMob = (body) => {
         });
     }
 
-    //? Valido campo 'imageUrl'
     if (!body.imageUrl || typeof body.imageUrl !== "string" || body.imageUrl.trim() === "") {
         errors.push({
             field: "imageUrl",
@@ -95,7 +79,6 @@ const validateMob = (body) => {
         });
     }
 
-    //? Valido campo 'health' (obligatorio, numero entero valido y mayor o igual a 0)
     if (body.health === undefined || body.health === null || isNaN(Number(body.health)) || !Number.isInteger(Number(body.health)) || Number(body.health) < 0) {
         errors.push({
             field: "health", 

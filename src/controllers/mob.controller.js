@@ -49,6 +49,7 @@ const updateMob = async (req, res) => {
             .status(400)
             .json({ error: "El ID provisto no es un número válido" });
         }
+
         const updatedMob = await mobService.updateMob(mobId, req.body);
         res.json(updatedMob);
     } 
