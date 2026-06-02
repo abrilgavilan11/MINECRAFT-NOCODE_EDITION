@@ -5,8 +5,18 @@ console.log(" FRONTEND_URL en memoria del servidor:", process.env.FRONTEND_URL);
 const express = require('express');
 const cors = require('cors');
 
-const itemRoutes = require("./routes/item.routes.js");
-const mobRoutes = require("./routes/mob.routes.js");
+const { Pool } = require('pg');
+const { PrismaPg } = require('@prisma/adapter-pg');
+const { PrismaClient } = require('@prisma/client');
+
+const { validateItem, validateMob } = require('./validations/entity.validation');
+
+const pool = new Pool({ 
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
