@@ -26,6 +26,14 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('¡La API de Minecraft está funcionando perfectamente! 🚀 probá ir a /api/items o /api/mobs');
 });
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "API funcionando correctamente"
+  });
+});
+
 app.get('/api/items', async (req, res) => {
   try {
     const items = await prisma.item.findMany();
@@ -46,7 +54,6 @@ app.get('/api/mobs', async (req, res) => {
   }
 });
 
-//TODO: Asi se obtiene un item especifico por ID
 app.get('/api/items/:id', async (req, res) => {
   try {
     const itemId = parseInt(req.params.id);
@@ -64,7 +71,6 @@ app.get('/api/items/:id', async (req, res) => {
   }
 });
 
-//TODO: Asi se obtiene un mob especifico por ID
 app.get('/api/mobs/:id', async (req, res) => {
   try {
     const mobId = parseInt(req.params.id);
@@ -262,3 +268,5 @@ app.delete('/api/mobs/:id', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend encendido y escuchando en http://localhost:${PORT}`);
 });
+
+module.exports = app;
