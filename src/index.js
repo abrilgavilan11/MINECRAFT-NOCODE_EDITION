@@ -1,27 +1,15 @@
-require('dotenv/config');
-console.log(" FRONTEND_URL en memoria del servidor:", process.env.FRONTEND_URL);
-const express = require('express');
-const cors = require('cors');
+require("dotenv/config");
+const express = require("express");
+const cors = require("cors");
 
-const { Pool } = require('pg');
-const { PrismaPg } = require('@prisma/adapter-pg');
-const { PrismaClient } = require('@prisma/client');
-const {validateItem, validateMob} = require('./validations/entity.validation');
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const itemRoutes = require("./routes/item.routes.js");
+const mobRoutes = require("./routes/mob.routes.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
-
+app.use(cors());
 app.use(express.json());
-
 
 app.get('/', (req, res) => {
   res.send('¡La API de Minecraft está funcionando perfectamente! 🚀 probá ir a /api/items o /api/mobs');
