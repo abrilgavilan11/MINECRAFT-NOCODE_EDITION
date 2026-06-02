@@ -2,9 +2,6 @@ const express = require('express');
 const cors = require('cors');
 
 const logger = require('./middlewares/logger.middleware.js');
-
-app.use(logger);
-
 const itemRoutes = require('./routes/item.routes.js');
 const mobRoutes = require('./routes/mob.routes.js');
 
@@ -12,6 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(logger);
 
 app.get('/', (req, res) => {
   res.send('¡La API de Minecraft está funcionando perfectamente! 🚀 probá ir a /api/items o /api/mobs');
