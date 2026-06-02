@@ -1,7 +1,7 @@
+<h2 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h2>
 <div align="center">
   <img src="./public/img/hero-minecraft.png" alt="Minecraft NoCode Edition Banner" width="600">
 </div>
-<h3 align="center">Desarrollado para la materia: Programación Web Avanzada - UNCo</h3>
 
 # 🧱 Minecraft NoCode Edition - Backend API
 
@@ -10,9 +10,9 @@ Esta es la API REST desarrollada con Node.js, Express, Prisma ORM y PostgreSQL (
 ## 👥 Integrantes del Grupo
 | Rol | Nombre | GitHub |
 | :--- | :--- | :--- |
-| PM / Scrum Master | Abril Gavilan | [@abrilgavilan11] |
-| Backend Developer | Daniela Oñatibia | [@DanielaOnatibia] |
-| Backend Developer | Erick Gonzalez | [@DevEriik] |
+| PM / Scrum Master | Abril Gavilan | @abrilgavilan11 |
+| Backend Developer | Daniela Oñatibia | @DanielaOnatibia |
+| Backend Developer | Erick Gonzalez | @DevEriik |
 
 
 ## 🔗 Enlaces del Proyecto
@@ -25,8 +25,8 @@ Esta es la API REST desarrollada con Node.js, Express, Prisma ORM y PostgreSQL (
 ## 🎮 Descripción de la Aplicación
 Minecraft NoCode Edition es una plataforma orientada a la comunidad técnica y creativa de Minecraft. Cuenta con herramientas como un creador de skins 2D y un directorio de ítems del juego, facilitando la gestión de recursos sin necesidad de programar.
 
-### 📦 Entidades Elegidas
-Las entidades principales modeladas para este CRUD son Skins e Items. Estas entidades contienen toda la información necesaria para gestionar el recurso y conectarlo con nuestra base de datos PostgreSQL, e incluye campos obligatorios como `id`, `createdAt` y `updatedAt`.
+## 📦 Entidades Elegidas
+Las entidades principales modeladas para este CRUD son Mobs e Items. Estas entidades contienen toda la información necesaria para gestionar el recurso y conectarlo con nuestra base de datos PostgreSQL, e incluye campos obligatorios como `id`, `createdAt` y `updatedAt`.
 
 ## ✨ Características Principales
 
@@ -54,7 +54,7 @@ Sigue estos pasos para correr el entorno de desarrollo localmente
     git clone https://github.com/abrilgavilan11/MINECRAFT-NOCODE_EDITION.git
    ```
 
-2.Instalar las dependencias:  
+2. Instalar las dependencias:  
     ```bash
         npm install
     ```
@@ -64,7 +64,7 @@ Sigue estos pasos para correr el entorno de desarrollo localmente
         npm run dev
     ```
 
-4.Levantar el servidor en modo producción:  
+4. Levantar el servidor en modo producción:  
     ```bash
         npm start
     ```
@@ -74,7 +74,7 @@ El proyecto requiere variables de entorno para funcionar y conectarse a la base 
 
 1. Crea un archivo .env en la raíz del proyecto.
 2. Copia la estructura del archivo .env.example proporcionado en este repositorio.
-3.Solicita las credenciales reales (DATABASE_URL) por mensajería privada al equipo. No subas tus credenciales al repositorio.
+3. Solicita las credenciales reales (DATABASE_URL) por mensajería privada al equipo. No subas tus credenciales al repositorio.
 
 ## 🗄️ Base de Datos (Supabase): Migraciones y Seed
 Este proyecto utiliza Prisma ORM para el modelado y la conexión con la base de datos alojada en Supabase. Para inicializar la base de datos remota con la estructura y los datos, ejecuta los siguientes comandos:
