@@ -110,40 +110,219 @@ const dataLocal = [
 ];
 
 async function main() {
-  console.log('🌱 Iniciando la carga de datos a Supabase...');
+  console.log('🌱 Iniciando la carga de datos a Supabase con soporte multiidioma...');
 
+  // Limpiamos tablas hijas y luego padres (el orden importa por las claves foráneas)
+  await prisma.itemTranslation.deleteMany();
+  await prisma.mobTranslation.deleteMany();
   await prisma.item.deleteMany();
   await prisma.mob.deleteMany();
 
   const itemsMock = dataLocal.filter(obj => obj.type === "ITEM");
   const mobsMock = dataLocal.filter(obj => obj.type === "MOB");
 
-  const itemsParaInsertar = itemsMock.map(item => ({
-    name: item.name,
-    description: item.description,
-    rarity: item.size,
-    imageUrl: item.image
-  }));
+  // 1. Carga de Items
+  console.log('📦 Insertando ítems...');
+  for (const item of itemsMock) {
+    await prisma.item.create({
+      data: {
+        imageUrl: item.image,
+        ItemTranslation: {
+          create: [
+            {
+              lang: "es",
+              name: item.name,
+              description: item.description,
+              rarity: item.size
+            },
+            {
+              lang: "en",
+              name: getEnglishItemName(item.name),
+              description: `${item.description} (English translation)`,
+              rarity: getEnglishRarity(item.size)
+            }
+          ]
+        }
+      }
+    });
+  }
 
-  const mobsParaInsertar = mobsMock.map(mob => ({
-    name: mob.name,
-    description: mob.description,
-    health: 20,
-    type: mob.behavior,
-    imageUrl: mob.image
-  }));
-  await prisma.item.createMany({ data: itemsParaInsertar });
-  console.log(`✅ ¡Éxito! Se insertaron ${itemsParaInsertar.length} ÍTEMS.`);
+  // 2. Carga de Mobs
+  console.log('🧟 Insertando mobs...');
+  for (const mob of mobsMock) {
+    await prisma.mob.create({
+      data: {
+        health: 20,
+        imageUrl: mob.image,
+        MobTranslation: {
+          create: [
+            {
+              lang: "es",
+              name: mob.name,
+              description: mob.description,
+              type: mob.behavior
+            },
+            {
+              lang: "en",
+              name: getEnglishMobName(mob.name),
+              description: `${mob.description} (English translation)`,
+              type: getEnglishMobType(mob.behavior)
+            }
+          ]
+        }
+      }
+    });
+  }
 
-  await prisma.mob.createMany({ data: mobsParaInsertar });
-  console.log(`✅ ¡Éxito! Se insertaron ${mobsParaInsertar.length} MOBS.`);
+  console.log('✅ ¡Éxito! Base de datos poblada en español e inglés.');
+}
+
+//TODO: Estas son funciones auxiliares que le agrege para simular traducciones en el seed
+function getEnglishItemName(name) {
+  const translations = {
+    "Espada de Diamante": "Diamond Sword",
+    "Pico de Diamante": "Diamond Pickaxe",
+    "Manzana de Oro": "Golden Apple",
+    "Estrella del Nether": "Nether Star",
+    "Ojo de Ender": "Eye of Ender",
+    "Perla de Ender": "Ender Pearl",
+    "Faro": "Beacon",
+    "Cubo de Leche": "Milk Bucket",
+    "Hueso": "Bone",
+    "Pescado Crudo": "Raw Cod",
+    "Zanahoria en un palo": "Carrot on a stick",
+    "Cubo de Agua": "Water Bucket",
+    "Esmeralda": "Emerald",
+    "Tótem de Inmortalidad": "Totem of Undying",
+    "Arco": "Bow",
+    "Hacha de Hierro": "Iron Axe",
+    "Pepita de Oro": "Gold Nugget",
+    "Lágrima de Ghast": "Ghast Tear",
+    "Tijeras": "Shears",
+    "Bambú": "Bamboo",
+    "Caparazón de Tortuga": "Turtle Shell",
+    "Silla de Montar": "Saddle",
+    "Bola de Slime": "Slimeball",
+    "Alfombra": "Carpet",
+    "Zanahoria": "Carrot",
+    "Barco": "Boat",
+    "Calabaza": "Pumpkin",
+    "Vara de Blaze": "Blaze Rod",
+    "Crema de Magma": "Magma Cream",
+    "Bloque de Slime": "Slime Block",
+    "Caja de Shulker": "Shulker Box",
+    "Membrana de Fantasma": "Phantom Membrane",
+    "Bacalao Cocinado": "Cooked Cod",
+    "Saco de Tinta": "Ink Sac",
+    "Ojo de Araña": "Spider Eye",
+    "Poción de Curación": "Potion of Healing",
+    "Bola de Nieve": "Snowball",
+    "Bayas Dulces": "Sweet Berries",
+    "Semillas de Trigo": "Wheat Seeds",
+    "Antorcha": "Torch",
+    "Panal": "Honeycomb",
+    "Salmón Crudo": "Raw Salmon",
+    "Tridente": "Trident",
+    "Montura": "Saddle",
+    "Lingote de Netherite": "Netherite Ingot",
+    "Hongo Distorsionado": "Warped Fungus",
+    "Lingote de Oro": "Gold Ingot",
+    "Saco de Tinta Brillante": "Glow Ink Sac"
+  };
+  return translations[name] || `${name} (EN)`;
+}
+
+function getEnglishMobName(name) {
+  const translations = {
+    "Zombie": "Zombie",
+    "Creeper": "Creeper",
+    "Esqueleto": "Skeleton",
+    "Enderman": "Enderman",
+    "Ender Dragon": "Ender Dragon",
+    "Warden Boss": "Warden Boss",
+    "Wither": "Wither",
+    "Gallina": "Chicken",
+    "Vaca": "Cow",
+    "Perro": "Dog",
+    "Gato": "Cat",
+    "Cerdo": "Pig",
+    "Axolote": "Axolotl",
+    "Aldeano Común": "Villager",
+    "Evoker": "Evoker",
+    "Saqueador": "Pillager",
+    "Vindicador": "Vindicator",
+    "Piglin Zombificado": "Zombified Piglin",
+    "Ghast": "Ghast",
+    "Oveja": "Sheep",
+    "Panda": "Panda",
+    "Tortuga": "Turtle",
+    "Caballo": "Horse",
+    "Sapo (Rana)": "Frog",
+    "Llama": "Llama",
+    "Conejo": "Rabbit",
+    "Camello": "Camel",
+    "Golem de Hierro": "Iron Golem",
+    "Blaze": "Blaze",
+    "Cubo de Magma": "Magma Cube",
+    "Slime": "Slime",
+    "Shulker": "Shulker",
+    "Fantasma (Phantom)": "Phantom",
+    "Delfín": "Dolphin",
+    "Calamar": "Squid",
+    "Araña": "Spider",
+    "Bruja": "Witch",
+    "Golem de Nieve": "Snow Golem",
+    "Zorro": "Fox",
+    "Loro": "Parrot",
+    "Murciélago": "Bat",
+    "Abeja": "Bee",
+    "Oso Polar": "Polar Bear",
+    "Ahogado": "Drowned",
+    "Devastador": "Ravager",
+    "Vex": "Vex",
+    "Estrider (Lavagante)": "Strider",
+    "Bruto Piglin": "Piglin Brute",
+    "Calamar Brillante": "Glow Squid",
+    "Allay": "Allay"
+  };
+  return translations[name] || name;
+}
+
+function getEnglishRarity(rarity) {
+  const translations = {
+    "Herramienta": "Tool",
+    "Consumible": "Consumable",
+    "Especial": "Special",
+    "Legendario": "Legendary",
+    "Bloque": "Block",
+    "Ingrediente": "Ingredient",
+    "Recurso": "Resource",
+    "Arma": "Weapon",
+    "Armadura": "Armor",
+    "Accesorio": "Accessory",
+    "Vehículo": "Vehicle",
+    "Objeto": "Object",
+    "Moneda": "Currency"
+  };
+  return translations[rarity] || rarity;
+}
+
+function getEnglishMobType(type) {
+  const translations = {
+    "Hostil": "Hostile",
+    "Neutral": "Neutral",
+    "Pasivo": "Passive",
+    "Amigable": "Friendly"
+  };
+  return translations[type] || type;
 }
 
 main()
-  .catch((e) => {
-    console.error('❌ Error en el seed:', e);
-    process.exit(1);
-  })
-  .finally(async () => {
+  .then(async () => {
     await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
   });
