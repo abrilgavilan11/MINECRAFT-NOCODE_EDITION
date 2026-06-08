@@ -60,26 +60,10 @@ const createMob = async (req, res) => {
 };
 
 const updateMob = async (req, res) => {
-    try {
-        const mobId = parseInt(req.params.id);
-        if (isNaN(mobId)) {
-        return res
-            .status(400)
-            .json({ error: "El ID provisto no es un número válido" });
-        }
-
-        const updatedMob = await mobService.updateMob(mobId, req.body);
-        res.json(updatedMob);
-    } 
-    catch (error) {
-        console.error(error);
-        if (error.status === 400)
-        return res
-            .status(400)
-            .json({ error: "Datos inválidos", details: error.details });
-        if (error.status === 404)
-        return res.status(404).json({ error: "Recurso no encontrado" });
-        res.status(500).json({ error: "Error inesperado del servidor" });
+  try {
+    const mobId = parseInt(req.params.id);
+    if (isNaN(mobId)) {
+      return res.status(400).json({ error: "El ID provisto no es un número válido" });
     }
 
     const errors = validateMob(req.body);
