@@ -1,11 +1,8 @@
-require("dotenv/config");
-const express = require("express");
-const cors = require("cors");
+require('dotenv').config();
+const app = require('./app.js'); 
 
-const itemRoutes = require("./routes/item.routes.js");
-const mobRoutes = require("./routes/mob.routes.js");
+console.log(" FRONTEND_URL en memoria del servidor:", process.env.FRONTEND_URL);
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());

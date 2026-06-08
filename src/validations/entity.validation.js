@@ -1,10 +1,6 @@
-/**
- * TODO: Con esto validamos el cuerpo de un ITEM de Minecraft
- */
 const validateItem = (body) => {
     const errors = [];
 
-    //? Evito objetos vacios. 
     if (!body || Object.keys(body).length === 0) {
         errors.push({
             field: "body", 
