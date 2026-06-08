@@ -13,99 +13,154 @@ const validateItem = (body) => {
         return errors;
     }
 
-    //? Valido el campo 'name' (obligatorio, string, no vacio)
-    if (!body.name || typeof body.name !== "string" || body.name.trim() === "") {
-        errors.push({
-            field: "name", 
-            message: "El nombre el obligatorio y debe ser un texto valido."
-        })
-    }
-
-    //? Valido campo 'description' (obligatorio, string, no vacio)
-    if (!body.description || typeof body.description !== "string" || body.description.trim() === "") {
-        errors.push({
-            field: "description", 
-            message: "La descripcion es obligatoria."
-        })
-    }
-
-    //? Valido campo 'rarity' (obligatorio, string, no vacio)
-    if (!body.rarity || typeof body.rarity !== "string" || body.rarity.trim() === "") {
-        errors.push({
-            field: "rarity", 
-            message: "La rareza (o utilidad) es obligatoria."
-        })
-    }
-
-    //? Valido campo 'imageUrl' (obligatorio, string, no vacio)
+    //? Valido campo 'imageUrl' comun
     if (!body.imageUrl || typeof body.imageUrl !== "string" || body.imageUrl.trim() === "") {
         errors.push({
-            field: "imageUrl", 
+            field: "imageUrl",
             message: "La URL de la imagen es obligatoria."
         })
     }
 
-    return errors;
-}
+    //? Valido la estructura del array de traduccion
+    if (!body.translations || !Array.isArray(body.translations) || body.translations.length === 0) {
+        errors.push({
+            field: "translations",
+            message: "Las traducciones son obligatorias y deben ser un array"
+        })
+        return errors
+    }
 
+    //? Busco traducciones obligatorias para 'es' y 'en' 
+    const esTrans = body.translations.find(t => t.lang === "es")
+    const enTrans = body.translations.find(t => t.lang === "en")
+
+    //? Ahora valido la traduccion en "es"
+    if (!esTrans) {
+        errors.push({
+            field: "translations",
+            message: "Falta la traduccion en español obligatoria ('es')."
+        })
+    }else{
+        if (!esTrans.name || typeof esTrans.name !== "string" || esTrans.name.trim() === "") {
+            errors.push({
+                field: "translations[es].name", 
+                message: "El nombre en español es obligatorio."
+            })
+        }
+        if (!esTrans.description || typeof esTrans.description !== "string" || esTrans.description.trim() === "") {
+            errors.push({
+                field: "translations[es].description", 
+                message: "La descripcion en español es obligatoria"
+            })
+        }
+        if (!esTrans.rarity || typeof esTrans.rarity !== "string" || esTrans.rarity.trim() === "") {
+            errors.push({
+                field: "translations[es].rarity", 
+                message: "La rareza (rarity) en español es obligatoria."
+            })
+        }
+    }
+
+    //? Ahora valido la traduccion en "en"
+    if (!enTrans) {
+    errors.push({
+      field: "translations",
+      message: "Falta la traducción en inglés obligatoria ('en')."
+    });
+  } else {
+    if (!enTrans.name || typeof enTrans.name !== "string" || enTrans.name.trim() === "") {
+      errors.push({ field: "translations[en].name", message: "El nombre en inglés es obligatorio." });
+    }
+    if (!enTrans.description || typeof enTrans.description !== "string" || enTrans.description.trim() === "") {
+      errors.push({ field: "translations[en].description", message: "La descripción en inglés es obligatoria." });
+    }
+    if (!enTrans.rarity || typeof enTrans.rarity !== "string" || enTrans.rarity.trim() === "") {
+      errors.push({ field: "translations[en].rarity", message: "La rareza (rarity) en inglés es obligatoria." });
+    }
+  }
+  return errors;
+};
 /**
- * TODO: Con esto validamos el cuerpo de un MOB de Minecraft
+ * TODO: Valido el cuerpo de un MOB de Minecraft con traducciones
  */
 const validateMob = (body) => {
-    const errors = []
+  const errors = [];
 
-    //? Evito objetos vacios. 
-    if (!body || Object.keys(body).length === 0) {
-        errors.push({
-            field: "body",
-            message: "El cuerpo de la solicitud no puede estar vacio."
-        })
-        return errors;
-    }
-
-    //? Valido campo name
-    if (!body.name || typeof body.name !== "string" || body.name.trim() === "") {
-        errors.push({
-            field: "name",
-            message: "El nombre es obligatorio"
-        });
-    }
-
-    //? Valido campo 'description'
-    if (!body.description || typeof body.description !== "string" || body.description.trim() === "") {
-        errors.push({
-            field: "description",
-            message: "La descripción es obligatoria"
-        });
-    }
-
-    //? Valido campo 'type' (el comportamiento/tipo del mob)
-    if (!body.type || typeof body.type !== "string" || body.type.trim() === "") {
-        errors.push({
-            field: "type",
-            message: "El tipo (comportamiento) es obligatorio"
-        });
-    }
-
-    //? Valido campo 'imageUrl'
-    if (!body.imageUrl || typeof body.imageUrl !== "string" || body.imageUrl.trim() === "") {
-        errors.push({
-            field: "imageUrl",
-            message: "La URL de la imagen es obligatoria"
-        });
-    }
-
-    //? Valido campo 'health' (obligatorio, numero entero valido y mayor o igual a 0)
-    if (body.health === undefined || body.health === null || isNaN(Number(body.health)) || !Number.isInteger(Number(body.health)) || Number(body.health) < 0) {
-        errors.push({
-            field: "health", 
-            message: "La vida (health) es obligatoria y debe ser un numero entero mayor o igual a 0."
-        })
-    }
+  if (!body || Object.keys(body).length === 0) {
+    errors.push({
+      field: "body",
+      message: "El cuerpo de la solicitud no puede estar vacío."
+    });
     return errors;
-}; 
+  }
+
+  if (!body.imageUrl || typeof body.imageUrl !== "string" || body.imageUrl.trim() === "") {
+    errors.push({
+      field: "imageUrl",
+      message: "La URL de la imagen es obligatoria."
+    });
+  }
+
+  if (
+    body.health === undefined || 
+    body.health === null || 
+    isNaN(Number(body.health)) || 
+    !Number.isInteger(Number(body.health)) || 
+    Number(body.health) < 0
+  ) {
+    errors.push({
+      field: "health", 
+      message: "La vida (health) es obligatoria y debe ser un número entero mayor o igual a 0."
+    });
+  }
+  
+  if (!body.translations || !Array.isArray(body.translations) || body.translations.length === 0) {
+    errors.push({
+      field: "translations",
+      message: "Las traducciones son obligatorias y deben ser un array."
+    });
+    return errors;
+  }
+  const esTrans = body.translations.find(t => t.lang === "es");
+  const enTrans = body.translations.find(t => t.lang === "en");
+  //? Ahora valido en es
+  if (!esTrans) {
+    errors.push({
+      field: "translations",
+      message: "Falta la traducción en español obligatoria ('es')."
+    });
+  } else {
+    if (!esTrans.name || typeof esTrans.name !== "string" || esTrans.name.trim() === "") {
+      errors.push({ field: "translations[es].name", message: "El nombre en español es obligatorio." });
+    }
+    if (!esTrans.description || typeof esTrans.description !== "string" || esTrans.description.trim() === "") {
+      errors.push({ field: "translations[es].description", message: "La descripción en español es obligatoria." });
+    }
+    if (!esTrans.type || typeof esTrans.type !== "string" || esTrans.type.trim() === "") {
+      errors.push({ field: "translations[es].type", message: "El tipo (type) en español es obligatorio." });
+    }
+  }
+  //? Ahora valido en ingles
+  if (!enTrans) {
+    errors.push({
+      field: "translations",
+      message: "Falta la traducción en inglés obligatoria ('en')."
+    });
+  } else {
+    if (!enTrans.name || typeof enTrans.name !== "string" || enTrans.name.trim() === "") {
+      errors.push({ field: "translations[en].name", message: "El nombre en inglés es obligatorio." })
+    }
+    if (!enTrans.description || typeof enTrans.description !== "string" || enTrans.description.trim() === "") {
+      errors.push({ field: "translations[en].description", message: "La descripción en inglés es obligatoria." })
+    }
+    if (!enTrans.type || typeof enTrans.type !== "string" || enTrans.type.trim() === "") {
+      errors.push({ field: "translations[en].type", message: "El tipo (type) en inglés es obligatorio." })
+    }
+  }
+  return errors;
+};
 
 module.exports = {
-    validateItem, 
-    validateMob
+  validateItem, 
+  validateMob
 };
