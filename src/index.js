@@ -1,4 +1,7 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const app = require('./app.js'); 
 
 console.log(" FRONTEND_URL en memoria del servidor:", process.env.FRONTEND_URL);
