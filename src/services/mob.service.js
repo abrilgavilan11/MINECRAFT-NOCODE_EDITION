@@ -29,9 +29,11 @@ const getMobById = async (id, lang = "es") => {
 
 //* Hago una creacion anidada de Mobs
 const createMob = async (data) => {
-  const { imageUrl, health, translations } = data;
+  const { name, imageUrl, health, translations } = data;
+  
   return await prisma.mob.create({
     data: {
+      name: name, 
       imageUrl,
       health: parseInt(health),
       MobTranslation: {
@@ -44,24 +46,20 @@ const createMob = async (data) => {
   });
 };
 
+
 //* Edito los mobs y sus traducciones
 const updateMob = async (id, data) => {
-  const existingMob = await prisma.mob.findUnique({
-    where: { id: id },
-  });
-  if (!existingMob) {
-    throw { status: 404 };
-  }
+  const existingMob = await prisma.mob.findUnique({ where: { id: id } });
+  if (!existingMob) throw { status: 404 };
 
-  const { imageUrl, health, translations } = data;
+  const { name, imageUrl, health, translations } = data;
 
-  await prisma.mobTranslation.deleteMany({
-    where: { mobId: id }
-  });
+  await prisma.mobTranslation.deleteMany({ where: { mobId: id } });
 
   return await prisma.mob.update({
     where: { id: id },
     data: {
+      name: name,
       imageUrl,
       health: parseInt(health),
       MobTranslation: {

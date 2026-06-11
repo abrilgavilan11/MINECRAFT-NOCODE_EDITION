@@ -121,11 +121,11 @@ async function main() {
   const itemsMock = dataLocal.filter(obj => obj.type === "ITEM");
   const mobsMock = dataLocal.filter(obj => obj.type === "MOB");
 
-  // 1. Carga de Items
   console.log('📦 Insertando ítems...');
   for (const item of itemsMock) {
     await prisma.item.create({
       data: {
+        name: item.name,
         imageUrl: item.image,
         ItemTranslation: {
           create: [
@@ -147,11 +147,11 @@ async function main() {
     });
   }
 
-  // 2. Carga de Mobs
   console.log('🧟 Insertando mobs...');
   for (const mob of mobsMock) {
     await prisma.mob.create({
       data: {
+        name: mob.name,
         health: 20,
         imageUrl: mob.image,
         MobTranslation: {
