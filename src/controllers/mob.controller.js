@@ -24,7 +24,6 @@ const getAllMobs = async (req, res) => {
     res.status(500).json({ error: "Hubo un problema al obtener los mobs" });
   }
 };
-//
 const getMobById = async (req, res) => {
   try {
     const mobId = parseInt(req.params.id);
