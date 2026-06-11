@@ -45,18 +45,19 @@ const getItemById = async (req, res) => {
 };
 
 const createItem = async (req, res) => {
-  try {
-    const errors = validateItem(req.body);
-    if (errors.length > 0) {
-      return res.status(400).json({ error: "Datos invalidos", details: errors });
+    try {
+        const { name, imageUrl, translations } = req.body; // <-- Acá está la clave
+        
+        const newItem = await itemService.createItem({ 
+            name, 
+            imageUrl, 
+            translations 
+        });
+        
+        res.status(201).json(newItem);
+    } catch (error) {
+        res.status(500).json({ error: "Error inesperado del servidor" });
     }
-
-    const newItem = await itemService.createItem(req.body);
-    res.status(201).json(newItem);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error inesperado del servidor" });
-  }
 };
 
 const updateItem = async (req, res) => {
@@ -71,7 +72,14 @@ const updateItem = async (req, res) => {
       return res.status(400).json({ error: "Datos invalidos", details: errors });
     }
 
-    const updatedItem = await itemService.updateItem(itemId, req.body);
+    const { name, imageUrl, translations } = req.body; 
+
+    const updatedItem = await itemService.updateItem(itemId, { 
+        name, 
+        imageUrl, 
+        translations 
+    });
+
     res.json(updatedItem);
   } catch (error) {
     console.error(error);
