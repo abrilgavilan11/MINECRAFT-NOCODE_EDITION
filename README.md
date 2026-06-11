@@ -20,7 +20,7 @@ Esta es la API REST desarrollada con Node.js, Express, Prisma ORM y PostgreSQL (
 * **Repositorio Backend:** https://github.com/abrilgavilan11/MINECRAFT-NOCODE_EDITION
 * **Tablero Kanban:** https://github.com/users/abrilgavilan11/projects/3
 * **Deploy Frontend:** https://minecraft-nocode-edition.vercel.app/
-* **Deploy Backend:** []
+* **Deploy Backend:** https://minecraft-nocode-edition-sage.vercel.app/
 
 ## 🎮 Descripción de la Aplicación
 Minecraft NoCode Edition es una plataforma orientada a la comunidad técnica y creativa de Minecraft. Cuenta con herramientas como un creador de skins 2D y un directorio de ítems del juego, facilitando la gestión de recursos sin necesidad de programar.
