@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" 
+  provider = "postgresql"
 }
 
 // TABLA PADRE ITEM (CAMPOS COMUNES)
@@ -51,4 +51,28 @@ model MobTranslation {
   mob                 Mob                   @relation(fields: [mobId], references: [id], onDelete: Cascade)
 
     @@unique([mobId, lang])
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  role      String     @default("CLIENT") 
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  favorites Favorite[]   // relacion: Un usuario puede tener muchos favoritos
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  // relacion con el Usuario que guarda el favorito
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entityId  Int      // relacion con la entidad guardada 
+  entityType String  // item o mob
+  
+  createdAt DateTime @default(now())
+  @@unique([userId, entityId, entityType])  // usuario no puede guardar la misma entidad dos veces
 }
