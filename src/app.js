@@ -4,6 +4,7 @@ const cors = require('cors');
 const logger = require('./middlewares/logger.middleware.js');
 const itemRoutes = require('./routes/item.routes.js');
 const mobRoutes = require('./routes/mob.routes.js');
+const authRoutes = require('./routes/auth.routes.js');
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/items', itemRoutes);
 app.use('/api/mobs', mobRoutes);
+app.use("/auth", authRoutes);
 
 module.exports = app;
