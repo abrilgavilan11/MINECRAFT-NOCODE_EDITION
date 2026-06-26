@@ -1,7 +1,6 @@
 const prisma = require("../prisma/prismaClient.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { use } = require("react");
 
 const registerUser = async (data) => {
   const { name, email, password } = data;
@@ -45,7 +44,6 @@ const loginUser = async (data) => {
     throw { status: 401, message: "Credenciales inválidas." };
   }
 
-  // Generamos Token
   const token = jwt.sign(
     { userId: user.id },
     process.env.JWT_SECRET || "secreto_de_respaldo_por_si_acaso",
@@ -58,14 +56,14 @@ const loginUser = async (data) => {
     {expiresIn: "7d"}
   )
 
-  const expiresAt = new Date(); 
-  expiresAt.setDate(expiresAt.getDate() + 7);
+  const expireAt = new Date(); 
+  expireAt.setDate(expireAt.getDate() + 7);
 
   await prisma.refreshToken.create({
     data: {
       token: refreshToken, 
       userId: user.id, 
-      expiresAt
+      expireAt
     }
   })
 
@@ -93,7 +91,7 @@ const refreshAccessToken = async (refreshToken) => {
     throw {status: 401, message: "Refresh token invalido."}
   }
 
-  if(new Date() > storedToken.expiresAt){
+  if(new Date() > storedToken.expireAt){
     await prisma.refreshToken.delete({where: {id: storedToken.id}}); 
     throw {status: 401, message: "Refresh token expirado."}
   }
