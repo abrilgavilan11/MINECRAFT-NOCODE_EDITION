@@ -69,6 +69,7 @@ const loginUser = async (data) => {
 
   return {
     token,
+    refreshToken,
     user: {
       id: user.id,
       name: user.name,
@@ -150,5 +151,7 @@ const getUserById = async (id) => {
 module.exports = {
   registerUser,
   loginUser,
+  refreshAccessToken,
+  logoutUser,
   getUserById,
 };
