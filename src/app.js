@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const favoritesRoutes = require('./routes/favorites.routes.js')
 
 const logger = require('./middlewares/logger.middleware.js');
 const itemRoutes = require('./routes/item.routes.js');
 const mobRoutes = require('./routes/mob.routes.js');
+const authRoutes = require('./routes/auth.routes.js');
 
 const app = express();
 
@@ -24,5 +26,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/items', itemRoutes);
 app.use('/api/mobs', mobRoutes);
+app.use("/auth", authRoutes);
+app.use('/api/favorites', favoritesRoutes);
 
 module.exports = app;
