@@ -134,7 +134,23 @@ const logoutUser = async (refreshToken) => {
   return {message: "Sesión cerrada correctamente."}
 }
 
+const getUserById = async (id) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getUserById,
 };
