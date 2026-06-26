@@ -30,7 +30,7 @@ const getFavorites = async (req, res) => {
     const lang = req.query.lang || "es"; 
 
     try {
-        const favorites = await prisma.favorites.findMany({
+        const favorites = await prisma.favorite.findMany({
             where: {userId},
         });
 
