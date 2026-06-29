@@ -66,10 +66,13 @@ DATABASE_URL="postgresql://usuario:password@host:puerto/basededatos?pgbouncer=tr
 
 # Clave secreta para firmar los JSON Web Tokens (JWT)
 JWT_SECRET="aqui_va_tu_clave_secreta_super_segura"
+```
 
 ### ⚠️ Importante sobre JWT_SECRET:
 
 Esta variable es crucial para la seguridad de la aplicación. En desarrollo, puedes usar cualquier cadena de texto difícil de adivinar. Nunca subas el archivo .env al repositorio.
+
+---
 
 ## 🛠️ Instrucciones de Instalación y Ejecución
 
