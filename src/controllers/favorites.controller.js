@@ -34,39 +34,49 @@ const getFavorites = async (req, res) => {
             where: {userId},
         });
 
-        const fullFavorites = await Promise.all(
-            favorites.map(async (fav) => {
-                let entityDetails = null; 
+        const itemIds = favorites.filter(f => f.entityType.toLowerCase() === 'item').map(f => f.entityId);
+        const mobIds = favorites.filter(f => f.entityType.toLowerCase() === 'mob').map(f => f.entityId);
 
-                if(fav.entityType.toLowerCase() === 'item'){
-                    entityDetails = await prisma.item.findUnique({
-                        where: {id: fav.entityId},
-                        include: {
-                            ItemTranslation: {
-                                where: { lang: {in: [lang]}}
-                            }
-                        }
-                    });
-                }else if(fav.entityType.toLowerCase() === 'mob'){
-                    entityDetails = await prisma.mob.findUnique({
-                        where: {id: fav.entityId},
-                        include: {
-                            MobTranslation: {
-                                where: { lang: {in: [lang]}}
-                            }
-                        }
-                    });
+        const itemsPromise = itemIds.length > 0 ? prisma.item.findMany({
+            where: { id: { in: itemIds } },
+            include: {
+                ItemTranslation: {
+                    where: { lang: { in: [lang] } }
                 }
+            }
+        }) : Promise.resolve([]);
 
-                return {
-                    id: fav.id, 
-                    entityId: fav.entityId, 
-                    entityType: fav.entityType, 
-                    createdAt: fav.createdAt,
-                    details: flattenEntity(entityDetails, fav.entityType.toLowerCase())
+        const mobsPromise = mobIds.length > 0 ? prisma.mob.findMany({
+            where: { id: { in: mobIds } },
+            include: {
+                MobTranslation: {
+                    where: { lang: { in: [lang] } }
                 }
-            })
-        )
+            }
+        }) : Promise.resolve([]);
+
+        const [items, mobs] = await Promise.all([itemsPromise, mobsPromise]);
+
+        const itemsMap = new Map(items.map(item => [item.id, item]));
+        const mobsMap = new Map(mobs.map(mob => [mob.id, mob]));
+
+        const fullFavorites = favorites.map((fav) => {
+            let entityDetails = null; 
+
+            if(fav.entityType.toLowerCase() === 'item'){
+                entityDetails = itemsMap.get(fav.entityId) || null;
+            }else if(fav.entityType.toLowerCase() === 'mob'){
+                entityDetails = mobsMap.get(fav.entityId) || null;
+            }
+
+            return {
+                id: fav.id, 
+                entityId: fav.entityId, 
+                entityType: fav.entityType, 
+                createdAt: fav.createdAt,
+                details: flattenEntity(entityDetails, fav.entityType.toLowerCase())
+            }
+        });
 
         res.status(200).json(fullFavorites);
     } catch (error) {
